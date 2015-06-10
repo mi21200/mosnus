@@ -23,6 +23,7 @@ require('outlayer'),
 require('get-size'),
 require('fizzy-ui-utils')
 );
+
 } else {
 // browser global
 window.Masonry = factory(
@@ -30,6 +31,7 @@ window.Outlayer,
 window.getSize,
 window.fizzyUIUtils
 );
+
 }
 }( window, function factory( Outlayer, getSize, utils ) {
 'use strict';
@@ -49,6 +51,7 @@ this.colYs.push( 0 );
 }
 this.maxY = 0;
 };
+
 Masonry.prototype.measureColumns = function() {
 this.getContainerWidth();
 // if columnWidth is 0, default to outerWidth of first item
@@ -71,6 +74,7 @@ var mathMethod = excess && excess < 1 ? 'round' : 'floor';
 cols = Math[ mathMethod ]( cols );
 this.cols = Math.max( cols, 1 );
 };
+
 Masonry.prototype.getContainerWidth = function() {
 // container is parent if fit width
 var container = this.options.isFitWidth ? this.element.parentNode : this.element;
@@ -79,6 +83,7 @@ var container = this.options.isFitWidth ? this.element.parentNode : this.element
 var size = getSize( container );
 this.containerWidth = size && size.innerWidth;
 };
+
 Masonry.prototype._getItemLayoutPosition = function( item ) {
 item.getSize();
 // how many columns does this brick span
@@ -96,6 +101,7 @@ var position = {
 x: this.columnWidth * shortColIndex,
 y: minimumY
 };
+
 // apply setHeight to necessary columns
 var setHeight = minimumY + item.size.outerHeight;
 var setSpan = this.cols + 1 - colGroup.length;
@@ -104,6 +110,7 @@ this.colYs[ shortColIndex + i ] = setHeight;
 }
 return position;
 };
+
 /**
 * @param {Number} colSpan - number of columns the element spans
 * @returns {Array} colGroup
@@ -125,6 +132,7 @@ colGroup[i] = Math.max.apply( Math, groupColYs );
 }
 return colGroup;
 };
+
 Masonry.prototype._manageStamp = function( stamp ) {
 var stampSize = getSize( stamp );
 var offset = this._getElementOffset( stamp );
@@ -144,16 +152,19 @@ for ( var i = firstCol; i <= lastCol; i++ ) {
 this.colYs[i] = Math.max( stampMaxY, this.colYs[i] );
 }
 };
+
 Masonry.prototype._getContainerSize = function() {
 this.maxY = Math.max.apply( Math, this.colYs );
 var size = {
 height: this.maxY
 };
+
 if ( this.options.isFitWidth ) {
 size.width = this._getContainerFitWidth();
 }
 return size;
 };
+
 Masonry.prototype._getContainerFitWidth = function() {
 var unusedCols = 0;
 // count unused columns
@@ -166,11 +177,15 @@ unusedCols++;
 }
 // fit container to columns that have been used
 return ( this.cols - unusedCols ) * this.columnWidth - this.gutter;
+
 };
+
 Masonry.prototype.needsResizeLayout = function() {
 var previousWidth = this.containerWidth;
 this.getContainerWidth();
 return previousWidth !== this.containerWidth;
+
 };
 return Masonry;
+
 }));
